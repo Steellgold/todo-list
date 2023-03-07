@@ -1,91 +1,58 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+"use client";
 
-const inter = Inter({ subsets: ['latin'] })
+import { TodoPostForm } from "$/lib/utils/types/TodoPostForm";
+import { ReactElement } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "$/lib/components/forms/input";
+import { TbAlertTriangle } from "react-icons/tb";
+import { Select } from "$/lib/components/forms/select";
+import { Button } from "$/lib/components/forms/button";
 
-export default function Home() {
+export default function Home() : ReactElement {
+  const { register, handleSubmit, formState: { errors } } = useForm<TodoPostForm>({
+    resolver: zodResolver(TodoPostForm)
+  });
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
+    <div className="flex flex-col items-center mx-auto px-3 py-4">
+      <div className="w-full rounded-lg border-2 p-4 shadow sm:max-w-xl border-gray-700 bg-gray-800 sm:p-5">
+        <div className="mb-2 p-0">
+          <h1 className="mb-1 text-xl font-bold text-white md:text-2xl">Tâches à faire</h1>
+          <p className="text-sm font-normal text-white">
+            Ici, vous pouvez ajouter des tâches à faire, les supprimer et les marquer comme terminées en cliquant sur la case à cocher.
           </p>
-        </a>
+        </div>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
+        <form onSubmit={handleSubmit((data) => console.log(data))} className="grid grid-cols-2 gap-2 sm:grid-cols-8">
+          <label className="col-span-4">
+            <Input placeholder="Nom de la tâche" width="large" {...register("title")} />
+          </label>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          <label className="col-span-3">
+            <Select width="large" options={{
+              "none": "Aucune priorité",
+              "small": "Priorité minimale",
+              "medium": "Priorité moyenne",
+              "high": "Priorité maximale"
+            }} {...register("priority")} />
+          </label>
+
+          <label className="col-span-1">
+            <Button type="submit" width="large" variant="primary">
+              Créer
+            </Button>
+          </label>
+        </form>
+
+        {errors.title && <p className="text-red-400 mt-1 flex gap-2 items-center">
+          <TbAlertTriangle />{errors.title.message}
+        </p>}
+
+        {errors.priority && <p className="text-red-400 mt-1 flex gap-2 items-center">
+          <TbAlertTriangle />{errors.priority.message}
+        </p>}
       </div>
-    </main>
-  )
+    </div>
+  );
 }
