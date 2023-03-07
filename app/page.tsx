@@ -54,8 +54,18 @@ export default function Home() : ReactElement {
           </label>
         </form>
 
+        {taskStore.completedTasks.length === 0 && (
+          <p className="mt-1 text-gray-400">Vous n{"'"}avez encore complété aucune tâche. 😴</p>
+        )}
+
+        {taskStore.completedTasks.length > 0 && (
+          <p className="mt-1 text-gray-400">
+            Vous avez complété <strong>{taskStore.completedTasks.length} tâche(s)</strong> ! 🎉
+          </p>
+        )}
+
         {taskStore.tasks.length > 0 && (
-          <div className="mt-3 justify-between flex gap-2">
+          <div className="justify-between flex gap-2">
             <p>
               <span className="text-gray-400">
                 Vous avez <strong>{taskStore.tasks.length} tâche(s)</strong> à faire<br />
@@ -103,7 +113,7 @@ export default function Home() : ReactElement {
             </div>
 
             <div className="col-span-1 items-center mx-auto flex">
-              <Button variant="action" onClick={() => taskStore.deleteTask(task.id)}>
+              <Button variant="action" onClick={() => taskStore.completeTask(task)}>
                 <TbCheck />
               </Button>
             </div>

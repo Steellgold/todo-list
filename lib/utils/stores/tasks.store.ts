@@ -6,6 +6,11 @@ import { TaskStore } from "./tasks.types";
 export const useTasksStore = create(
   persist<TaskStore>(set => ({
     tasks: [] as Task[],
+    completedTasks: [] as Task[],
+    completeTask: task => set(state => ({
+      completedTasks: [...state.completedTasks, task],
+      tasks: state.tasks.filter(t => t.id !== task.id)
+    })),
     setTasks: tasks => set({ tasks }),
     addTask: task => set(state => ({
       tasks: [...state.tasks, task]
