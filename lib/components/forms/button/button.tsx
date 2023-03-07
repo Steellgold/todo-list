@@ -2,7 +2,7 @@ import { forwardRef, ReactElement } from "react";
 import clsx from "clsx";
 import { ButtonProps } from "./button.types";
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ width, variant, ...props }, ref): ReactElement => {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant, ...props }, ref): ReactElement => {
   const disabled = clsx({
     "cursor-not-allowed": props.disabled
   });

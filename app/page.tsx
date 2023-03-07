@@ -47,14 +47,14 @@ export default function Home() : ReactElement {
           </label>
 
           <label className="col-span-1">
-            <Button type="submit" width="large" variant="primary">
+            <Button type="submit" variant="primary">
               Créer
             </Button>
           </label>
         </form>
 
-        <div className="mt-2 justify-end">
-          <Button variant="action" width="small" onClick={() => {
+        { GetTasks().length > 0 && <div className="mt-2 justify-end">
+          <Button variant="action" onClick={() => {
             if (confirm("Êtes vous sûr de vouloir supprimer toutes les tâches ?")) {
               localStorage.removeItem("tasks");
               window.location.reload();
@@ -63,6 +63,7 @@ export default function Home() : ReactElement {
             Supprimer toutes les tâches
           </Button>
         </div>
+        }
 
         {errors.title && <p className="text-red-400 mt-1 flex gap-2 items-center">
           <TbAlertTriangle />{errors.title.message}
