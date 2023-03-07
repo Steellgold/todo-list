@@ -1,42 +1,16 @@
 "use client";
 
 import dayjs from "dayjs";
-import { useEffect } from "react";
-import { generateId } from "./number.utils";
+import { useTasksStore } from "./stores/tasks.store";
+import { Task } from "./types";
 
-export type Task = {
-  id?: number;
-  title: string;
-  priority: string;
-  createdAt?: string;
-};
+export const useGetTasks = (sortBy: "asc" | "desc" = "asc"): Task[] => {
+  const tasks = useTasksStore((state) => state.tasks);
 
-// useEffect AddTask function
-export const InitTasks = (): void => {
-  useEffect(() => {
-    if (localStorage.getItem("tasks") === null) {
-      localStorage.setItem("tasks", JSON.stringify([]));
-    }
-  }, []);
-};
-
-export const GetTasks = (sortBy: "asc" | "desc" = "asc"): Task[] => {
-  const tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
   return tasks.sort((a: Task, b: Task) => {
     if (sortBy === "asc") return dayjs(a.createdAt).isBefore(dayjs(b.createdAt)) ? -1 : 1;
     else return dayjs(a.createdAt).isBefore(dayjs(b.createdAt)) ? 1 : -1;
   });
-};
-
-export const AddTask = (task: Task): void => {
-  const tasks = GetTasks();
-  tasks.push({
-    id: generateId(),
-    title: task.title,
-    priority: task.priority,
-    createdAt: dayjs().toISOString()
-  });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 
