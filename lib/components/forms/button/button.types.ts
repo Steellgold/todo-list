@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 
 export type Props = PropsWithChildren & {
-  variant?: "primary" | "success" | "danger";
+  variant?: "primary" | "success" | "danger" | "action"
   width?: "small" | "medium" | "large";
 }
 
