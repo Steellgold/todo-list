@@ -1,3 +1,11 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals",
+    "@bluzzi"
+  ],
+  // IGNORE CAMELCASE ESPECE DE FILS DE PUTE
+  "rules": {
+    "camelcase": "off"
+  }
+  // Bon toutou, tu peux te reposer
 }
