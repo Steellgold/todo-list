@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 
 export type Task = {
-  id?: number;
+  id: number;
   title: string;
   priority: string;
   createdAt?: string;
